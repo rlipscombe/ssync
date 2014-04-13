@@ -217,8 +217,12 @@ parse_output({eol, BinMsg}, Acc) ->
                     {Project, []}
             end;
         nomatch ->
-            {Project, Msgs} = Acc,
-            {Project, [BinMsg | Msgs]}
+            case Acc of
+                {Project, Msgs} ->
+                    {Project, [BinMsg | Msgs]};
+                _ ->
+                    Acc
+            end
     end;
 
 parse_output({noeol, BinMsg}, {Project, Acc}) ->
